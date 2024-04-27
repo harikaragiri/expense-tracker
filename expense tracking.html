@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="expense traking.css">
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const expenseForm = document.getElementById('expense-form');
+    const expenseList = document.getElementById('expense-list');
+    const totalExpenses = document.getElementById('total-expenses');
+    let total = 0;
+
+    expenseForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const expenseInput = document.getElementById('expense');
+        const amountInput = document.getElementById('amount');
+        const expense = expenseInput.value;
+        const amount = parseFloat(amountInput.value);
+
+        if (expense !== '' && !isNaN(amount) && amount > 0) {
+            const expenseItem = document.createElement('div');
+            expenseItem.classList.add('expense-item');
+            expenseItem.innerHTML = `
+                <span>${expense}:</span>
+                <span>$${amount}</span>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            `;
+            expenseList.appendChild(expenseItem);
+            total += amount;
+            totalExpenses.textContent = total.toFixed(2);
+            expenseInput.value = '';
+            amountInput.value = '';
+
+            // Add event listeners for edit and delete buttons
+            const editButton = expenseItem.querySelector('.edit-btn');
+            editButton.addEventListener('click', function() {
+                // Implement edit functionality here
+                alert("Edit functionality will be implemented here.");
+            });
+
+            const deleteButton = expenseItem.querySelector('.delete-btn');
+            deleteButton.addEventListener('click', function() {
+                // Implement delete functionality here
+                expenseList.removeChild(expenseItem);
+                total -= amount;
+                totalExpenses.textContent = total.toFixed(2);
+            });
+        } else {
+            alert('Please enter valid expense and amount!');
+        }
+    });
+});
+
+  </script>
+    <div class="container">
+        <h1>Expense Tracker</h1>
+        <form id="expense-form">
+            <div class="form-group">
+                <label for="expense">Expense Description</label>
+                <input type="text" id="expense" placeholder="Enter expense description" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" placeholder="Enter amount" required>
+            </div>
+            <button type="submit">Add Expense</button>
+        </form>
+        <div id="expense-list"></div>
+        <h3>Total Expenses: <span id="total-expenses">0</span></h3>
+    </div>
+ 
+</body>
+</html>
